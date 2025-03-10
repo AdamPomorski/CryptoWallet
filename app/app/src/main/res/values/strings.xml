@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">CryptoTracker</string>
+    <string name="error_request_timeout">The request timed out.</string>
+    <string name="error_too_many_requests">Too many requests has been sent.\n</string>
+    <string name="error_no_internet">Check your internet connection and try later.</string>
+    <string name="error_server">There is a problem with server.</string>
+    <string name="error_serialization">CAnnot serialize</string>
+    <string name="error_unknown">Unknown error</string>
+    <string name="market_cap">Market Cap</string>
+    <string name="price">Price</string>
+    <string name="change_last_24hr">Change last 24h</string>
+    <string name="error_db_open_failed">Database open failed</string>
+    <string name="error_db_read">Database read failed</string>
+    <string name="error_db_write">Database write failed</string>
+    <string name="error_db_query">Wrong query</string>
+    <string name="error_db_not_found">Database not found</string>
+</resources>
