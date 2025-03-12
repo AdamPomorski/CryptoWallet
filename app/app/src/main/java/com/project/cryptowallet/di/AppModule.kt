@@ -12,6 +12,8 @@ import com.project.cryptowallet.portfolio.data.PriceRepositoryImpl
 import com.project.cryptowallet.portfolio.data.local.PortfolioDatabase
 import com.project.cryptowallet.portfolio.domain.OperationRepository
 import com.project.cryptowallet.portfolio.domain.PriceRepository
+import com.project.cryptowallet.portfolio.domain.use_cases.CalculatePortfolioUseCase
+import com.project.cryptowallet.portfolio.domain.use_cases.ManageAssetsUseCase
 import com.project.cryptowallet.portfolio.presentation.PortfolioViewModel
 import io.ktor.client.engine.cio.CIO
 import org.koin.android.ext.koin.androidApplication
@@ -50,7 +52,9 @@ val portfolioModule = module {
     single { get<PortfolioDatabase>().historicalPricesDao }
     single<OperationRepository> { OperationRepositoryImpl(get()) }
     single<PriceRepository> { PriceRepositoryImpl(get(), get()) }
-    viewModel { PortfolioViewModel(get(), get(), get<CoinDataSource>())  }
+    factory { CalculatePortfolioUseCase(get(), get()) }
+    factory { ManageAssetsUseCase(get(), get<CoinDataSource>() ) }
+    viewModel { PortfolioViewModel(get(), get(), get(), get())  }
 }
 
 

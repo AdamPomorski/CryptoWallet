@@ -1,5 +1,6 @@
 package com.project.cryptowallet.portfolio.presentation
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -46,9 +48,13 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.project.cryptowallet.R
+import com.project.cryptowallet.core.presentation.util.ObserveAsEvents
+import com.project.cryptowallet.core.presentation.util.toString
+import com.project.cryptowallet.core.presentation.util.toUserFriendlyString
 import com.project.cryptowallet.crypto_list.presentation.coin_detail.ChartStyle
 import com.project.cryptowallet.crypto_list.presentation.coin_detail.DataPoint
 import com.project.cryptowallet.crypto_list.presentation.coin_detail.LineChart
+import com.project.cryptowallet.crypto_list.presentation.coin_list.CoinListEvent
 
 import com.project.cryptowallet.portfolio.presentation.components.PortfolioTableCell
 import com.project.cryptowallet.ui.theme.CryptoTrackerTheme
@@ -70,15 +76,29 @@ fun PortfolioScreen(
         Color.Black
     }
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
 
     // Recalculate portfolio value when returning to this screen
     LaunchedEffect(Unit) {
-        viewModel.calculatePortfolioValueOverTime()
+        viewModel.refreshPortfolio()
+    }
+    ObserveAsEvents(events = viewModel.events) { event ->
+        when (event) {
+            is PortfolioEvent.Error -> {
+                Toast.makeText(
+                    context,
+                    event.error.toUserFriendlyString(context),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
     }
 
     SwipeRefresh(
         state = rememberSwipeRefreshState(state.isRefreshing),
-        onRefresh = { viewModel.refreshPortfolio() } // Trigger refresh when swiping down
+        onRefresh = {
+                viewModel.refreshPortfolio()
+        }
     ) {
 
         if (state.isLoading) {

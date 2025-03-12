@@ -4,7 +4,7 @@
     <string name="error_too_many_requests">Too many requests has been sent.\n</string>
     <string name="error_no_internet">Check your internet connection and try later.</string>
     <string name="error_server">There is a problem with server.</string>
-    <string name="error_serialization">CAnnot serialize</string>
+    <string name="error_serialization">Cannot serialize</string>
     <string name="error_unknown">Unknown error</string>
     <string name="market_cap">Market Cap</string>
     <string name="price">Price</string>

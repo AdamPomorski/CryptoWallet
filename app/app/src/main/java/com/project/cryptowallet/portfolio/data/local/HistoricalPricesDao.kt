@@ -19,8 +19,8 @@ interface HistoricalPricesDao {
     @Query("SELECT MAX(date) AS latest_date FROM historical_prices WHERE coinId = :coinId ")
     suspend fun getLatestDateForCoin(coinId: String): String?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addHistoricalPrice(historicalPriceEntity: HistoricalPriceEntity)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    suspend fun addHistoricalPrices(historicalPriceEntity: List<HistoricalPriceEntity>)
 
     @Query("SELECT MIN(date) AS latest_date FROM operation_items WHERE coinId = :coinId ")
     suspend fun getOldestOperationDateForCoin(coinId: String): String?
